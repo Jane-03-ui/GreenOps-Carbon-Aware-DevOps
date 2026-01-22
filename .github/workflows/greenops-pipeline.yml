@@ -1,0 +1,23 @@
+name: GreenOps Carbon-Aware Pipeline
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  green-score-job:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.x'
+
+      - name: Run Green Score Engine
+        run: |
+          python green_score.py
