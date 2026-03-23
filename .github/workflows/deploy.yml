@@ -1,16 +1,33 @@
-script: |
-  cd ~
-  cd GreenOps-Carbon-Aware-DevOps || { echo "Project folder not found"; exit 1; }
+name: GreenOps CI/CD Pipeline
 
-  echo "Pulling latest code..."
-  git pull
+on:
+  push:
+    branches:
+      - main
 
-  echo "Stopping old app..."
-  pkill -f app.py || echo "No old process"
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
 
-  echo "Starting app..."
-  cd demo_app || { echo "demo_app folder missing"; exit 1; }
+    steps:
+      - name: Deploy to EC2
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ec2-user
+          key: ${{ secrets.EC2_SSH_KEY }}
+          script: |
+            cd ~
+            cd GreenOps-Carbon-Aware-DevOps || exit 1
 
-  nohup python3 app.py > output.log 2>&1 &
+            echo "Pulling latest code..."
+            git pull
 
-  echo "Deployment completed successfully"
+            echo "Stopping old app..."
+            pkill -f app.py || echo "No old process"
+
+            echo "Starting app..."
+            cd demo_app || exit 1
+            nohup python3 app.py > output.log 2>&1 &
+
+            echo "Deployment completed successfully"
