@@ -1,1 +1,30 @@
-
+{
+    "IN-SO": {
+        "carbonIntensity": 568,
+        "datetime": "2026-03-19 15:04:40.623134"
+    },
+    "SG": {
+        "carbonIntensity": 468,
+        "datetime": "2026-03-19 15:04:41.109981"
+    },
+    "US-VA": {
+        "carbonIntensity": 0,
+        "datetime": "2026-03-19 15:04:41.260642"
+    },
+    "US-OR": {
+        "carbonIntensity": 0,
+        "datetime": "2026-03-19 15:04:41.400511"
+    },
+    "DE": {
+        "carbonIntensity": 359,
+        "datetime": "2026-03-19 15:04:41.673052"
+    },
+    "IE": {
+        "carbonIntensity": 298,
+        "datetime": "2026-03-19 15:04:41.983174"
+    },
+    "JP": {
+        "carbonIntensity": 492,
+        "datetime": "2026-03-19 15:04:42.281805"
+    }
+}

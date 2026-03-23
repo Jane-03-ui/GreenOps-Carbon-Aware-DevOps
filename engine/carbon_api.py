@@ -1,31 +1,45 @@
+import requests
 import json
-import random
 from datetime import datetime
 
-ZONES = [
-    "IN-SO",
-    "SG",
-    "US-VA",
-    "US-OR",
-    "DE",
-    "IE",
-    "JP"
-]
+API_KEY = "gbN2vcahyK7U39cG9t4G"
 
-def generate_carbon_data():
+ZONES = {
+    "ap-south-1": "IN-SO",
+    "ap-southeast-1": "SG",
+    "us-east-1": "US-VA",
+    "us-west-2": "US-OR",
+    "eu-central-1": "DE",
+    "eu-west-1": "IE",
+    "ap-northeast-1": "JP"
+}
 
-    results = {}
+def fetch_carbon_data():
+    data = {}
 
-    for zone in ZONES:
-        results[zone] = {
-            "carbonIntensity": random.randint(80, 600),
-            "datetime": str(datetime.now())
+    for region, zone in ZONES.items():
+        url = f"https://api.electricitymap.org/v3/carbon-intensity/latest?zone={zone}"
+
+        headers = {
+            "auth-token": API_KEY
         }
 
-    with open("data/carbon_data.json", "w") as file:
-        json.dump(results, file, indent=4)
+        try:
+            response = requests.get(url, headers=headers)
+            result = response.json()
 
-    print("Simulated carbon data generated!")
+            data[zone] = {
+                "carbonIntensity": result.get("carbonIntensity", 0),
+                "datetime": str(datetime.now())
+            }
+
+        except Exception as e:
+            print(f"Error fetching {zone}: {e}")
+
+    with open("data/carbon_data.json", "w") as f:
+        json.dump(data, f, indent=4)
+
+    print("✅ Real-time carbon data updated!")
 
 if __name__ == "__main__":
-    generate_carbon_data()
+    fetch_carbon_data()
