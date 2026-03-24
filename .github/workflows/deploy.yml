@@ -18,11 +18,7 @@ jobs:
           key: ${{ secrets.EC2_SSH_KEY }}
           script: |
             cd ~/GreenOps-Carbon-Aware-DevOps
-
             git pull
-
             pkill -f app.py || true
-
             cd demo_app
-
             nohup python3 app.py > output.log 2>&1 &
