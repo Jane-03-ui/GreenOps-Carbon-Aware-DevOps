@@ -17,8 +17,12 @@ jobs:
           username: ec2-user
           key: ${{ secrets.EC2_SSH_KEY }}
           script: |
-            cd ~/GreenOps-Carbon-Aware-DevOps
-            git pull
-            pkill -f app.py || true
-            cd demo_app
-            nohup python3 app.py > output.log 2>&1 &
+  cd ~/GreenOps-Carbon-Aware-DevOps
+
+  echo "Pulling latest code..."
+  git pull
+
+  echo "Starting app..."
+  cd demo_app
+
+  nohup python3 app.py > output.log 2>&1 &
